@@ -9,6 +9,9 @@ all: $(LIB)
 lib/%.js: src/%.ts
 	$(TSC) --outdir $(@D) $(TSFLAGS) $<
 
+test/%.js: test/%.ts
+	$(TSC) $(TSFLAGS) $<
+
 clean:
 	$(RM) $(LIB)
 
