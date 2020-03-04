@@ -1,5 +1,5 @@
 TSC = tsc
-TSFLAGS = -t esnext
+TSFLAGS = -t esnext --baseurl lib
 
 SRC = $(wildcard src/*/*.ts)
 LIB = $(patsubst src/%.ts, lib/%.js, $(SRC))
