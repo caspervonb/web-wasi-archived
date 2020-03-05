@@ -2,6 +2,11 @@ WebAssembly System Interface for the Web
 ========================================
 An extended implementation of the WebAssembly System Interface (WASI) for web browsers.
 
+This project aims to provide a complete implementation of the [WebAssembly
+System Interface](https://github.com/webassembly/wasi) for modern web browsers
+that support the [import-maps](https://github.com/wicg/import-maps) and
+[esm-integration](https://github.com/webassembly/esm-integration) proposals.
+
 Example
 -------
 
