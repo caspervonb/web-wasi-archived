@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>test</title>
+	<style>
+		html {
+			margin: 0;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		
+		ul {
+			margin: 0;
+			padding: 0;
+		}
+
+		li {
+			padding: 0.5rem;
+			list-style: none;
+		}
+
+		li.load {
+			background-color: #f1c40f;
+		}
+
+		li.fail {
+			color: white;
+			background-color: #c0392b;
+		}
+
+		body {
+			font-size: medium;
+		}
+	</style>
+</head>
+<body>
+	<script>
+		let listElement = document.createElement("ul");
+		document.body.appendChild(listElement);
+
+		let sources = [
+			"clock/res_get.html",
+			"clock/time_get.html",
+			"proc/exit.html",
+			"random/get.html",
+			"sched/yield.html",
+		];
+
+		for (let src of sources) {
+			let iframeElement = document.createElement("iframe");
+			iframeElement.hidden = true;
+			iframeElement.src = src;
+
+			document.body.appendChild(iframeElement);
+			
+			let itemElement = document.createElement("li");
+			itemElement.classList.add("load");
+			itemElement.dataset.src = src;
+			itemElement.textContent = src;
+
+			listElement.appendChild(itemElement);
+
+		    let contentWindow = iframeElement.contentWindow;
+			contentWindow.addEventListener("load", function(event) {
+				itemElement.classList.remove("load");
+			});
+
+			contentWindow.addEventListener("error", function(error) {
+				itemElement.classList.add("fail");
+
+				let listElement = itemElement.querySelector("ul");
+				if (listElement == null) {
+					listElement = document.createElement("ul");
+					itemElement.appendChild(listElement);
+				}
+
+				let element = document.createElement("li");
+				element.textContent = error.message;
+
+				listElement.appendChild(element);
+			});
+		}
+	</script>
+</body>
+</html>
