@@ -13,12 +13,12 @@ Example
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
-	  <meta charset="utf-8">
-	  <meta http-equiv="x-ua-compatible" content="ie=edge">
-	  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	  <title>Hello, world!</title>
-	  <script type="importmap">
+		<title>Hello, world!</title>
+		<script type="importmap">
 		  {
 			  "imports": {
 				  "env": "path/to/module.wasm",
@@ -30,8 +30,8 @@ Example
 				  "wasi_sock": "path/to/wasi/sock.js"
 			  }
 		  }
-	  </script>
-	  <script type="module" src="path/to/module.wasm"></script>
+		</script>
+		<script type="module" src="path/to/module.wasm"></script>
 	</head>
 	<body>
 
