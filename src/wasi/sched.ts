@@ -1,6 +1,6 @@
 export function do_yield()
 {
-	return 52; /* ENOSYS */
+	return 0; /* ESUCCESS */
 }
 
 export {
