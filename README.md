@@ -31,6 +31,12 @@ Example
 			  }
 		  }
 		</script>
+
+		<script type="text/javascript">
+			// Optional; may be used to provide command line arguments.
+			self.argv = [];
+		</script>
+
 		<script type="module" src="path/to/module.wasm"></script>
 	</head>
 	<body>
