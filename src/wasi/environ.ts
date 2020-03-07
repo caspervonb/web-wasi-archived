@@ -1,15 +1,8 @@
 import { memory } from "env";
 
-const defaults = {
-	"HOME": "/home/user",
-	"PATH": "/",
-	"PWD": "/",
-	"USER": "user",
-};
-
 export function get(environ, environ_buf)
 {
-	let env = Object.assign(defaults, self["env"]);
+	let env = "env" in self ? self.env : {};
 	let data = new DataView(memory.buffer);
 
 	let entries = Object.entries(env);
@@ -32,7 +25,7 @@ export function get(environ, environ_buf)
 
 export function sizes_get(environc, environ_buf_size)
 {
-	let env = Object.assign(defaults, self["env"]);
+	let env = "env" in self ? self.env : {};
 	let data = new DataView(memory.buffer);
 
 	let keys = Object.keys(env);
