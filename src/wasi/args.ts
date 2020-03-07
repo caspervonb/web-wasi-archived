@@ -2,7 +2,7 @@ import { memory } from "env";
 
 export function get(argv, argv_buf)
 {
-	let args = "args" in self ? self.args : [];
+	let args = "args" in self ? self.argv : [];
 	let data = new DataView(memory.buffer);
 
 	for (let arg of args) {
@@ -24,7 +24,7 @@ export function get(argv, argv_buf)
 
 export function sizes_get(argc, argv_buf_size)
 {
-	let args = "args" in self ? self.args : [];
+	let args = "args" in self ? self.argv : [];
 	let data = new DataView(memory.buffer);
 
 	let count = args.length;
