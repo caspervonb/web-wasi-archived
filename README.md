@@ -35,6 +35,9 @@ Example
 		<script type="text/javascript">
 			// Optional; may be used to provide command line arguments.
 			self.argv = [];
+
+			// Optional; may be used to provide environment variables.
+			self.env = {};
 		</script>
 
 		<script type="module" src="path/to/module.wasm"></script>
