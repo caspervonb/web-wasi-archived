@@ -7,8 +7,8 @@ TEST = $(patsubst test/%.ts, test/%.js, $(wildcard test/*/*.ts))
 
 all: $(LIB) $(TEST)
 
-lib/%.js: src/%.ts
-	$(TSC) --outdir $(@D) $(TSFLAGS) $<
+lib/%.js: src/%.ts src/global.d.ts
+	$(TSC) --outdir $(@D) $(TSFLAGS) $^
 
 test/%.js: test/%.ts
 	$(TSC) $(TSFLAGS) $<
