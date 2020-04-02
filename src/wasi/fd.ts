@@ -73,7 +73,7 @@ export function pwrite(fd, iovs, iovs_len, offset, nwritten)
 	return 52; /* ENOSYS */
 }
 
-export function read(fd, iovs, read)
+export function read(fd, iovs, iovs_len, read)
 {
 	return 52; /* ENOSYS */
 }
