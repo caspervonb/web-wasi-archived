@@ -3,20 +3,20 @@ import { memory } from "env";
 export function get(environ, environ_buf)
 {
 	let env = "env" in self ? self.env : {};
+
+	let bytes = new Uint8Array(memory.buffer);
 	let data = new DataView(memory.buffer);
+	let encoder = new TextEncoder();
 
 	let entries = Object.entries(env);
 	for (let [key, value] of entries) {
         data.setUint32(environ, environ_buf);
 		environ += 4;
 
-		let string = `${key}=${value}\0`;
-		for (let i = 0; i < string.length; i++) {
-			data.setUint32(environ_buf + i, string.charCodeAt(i));
-		}
-
-		environ_buf += string.length;
-    }
+		let encoded = encoder.encode(`${key}=${value}\0`);
+		bytes.set(encoded, environ_buf);
+		environ_buf += encoded.length;
+	}
 
 	data.setUint32(environ, 0);
 
