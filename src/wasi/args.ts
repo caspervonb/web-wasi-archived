@@ -3,18 +3,18 @@ import { memory } from "env";
 export function get(argv, argv_buf)
 {
 	let args = "args" in self ? self.argv : [];
+
+	let bytes = new Uint8Array(memory.buffer);
 	let data = new DataView(memory.buffer);
+	let encoder = new TextEncoder();
 
 	for (let arg of args) {
 		data.setUint32(argv, argv_buf);
 		argv += 4;
 
-		let string = `${arg}\0`;
-		for (let i = 0; i < string.length; i++) {
-			data.setUint32(argv_buf + i, string.charCodeAt(i));
-		}
-
-		argv_buf += string.length;
+		let encoded = encoder.encode(`${arg}\0`);
+		bytes.set(encoded, argv_buf);
+		argv_buf += encoded.length;
 	}
 
 	data.setUint32(argv, 0);
