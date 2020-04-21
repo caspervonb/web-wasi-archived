@@ -1,3 +1,4 @@
+import { args } from "global";
 import { memory } from "module";
 
 const  CLOCKID_REALTIME                          =  0;
@@ -203,12 +204,36 @@ const  PREOPENTYPE_DIR                           =  0;
 
 export function args_get(argv_ptr, argv_buf_ptr)
 {
-	return ERRNO_NOSYS;
+	const heap = new Uint8Array(memory.buffer);
+	const view = new DataView(memory.buffer);
+
+	args.forEach(function(arg) {
+		view.setUint32(argv_ptr, argv_buf_ptr, true);
+		argv_ptr += 4;
+
+		const enc = new TextEncoder();
+		const str = enc.encode(arg + "\0");
+
+		heap.set(str, argv_buf_ptr);
+		argv_buf_ptr += str.length;
+	});
+
+	return ERRNO_SUCCESS;
 }
 
 export function args_sizes_get(argc_out, argv_buf_size_out)
 {
-	return ERRNO_NOSYS;
+	const view = new DataView(memory.buffer);
+
+	view.setUint32(argc_out, args.length, true);
+	view.setUint32(argv_buf_size_out, args.reduce(function(acc, arg) {
+		const enc = new TextEncoder();
+		const str = enc.encode(arg + "\0");
+
+		return acc + str.length;
+	}, 0), true);
+
+	return ERRNO_SUCCESS;
 }
 
 export function environ_get(environ_ptr, environ_buf_ptr)
