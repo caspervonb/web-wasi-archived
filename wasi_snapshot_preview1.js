@@ -1,4 +1,4 @@
-import { args } from "global";
+import { args, env } from "global";
 import { memory } from "module";
 
 const  CLOCKID_REALTIME                          =  0;
@@ -238,12 +238,36 @@ export function args_sizes_get(argc_out, argv_buf_size_out)
 
 export function environ_get(environ_ptr, environ_buf_ptr)
 {
-	return ERRNO_NOSYS;
+	const heap = new Uint8Array(memory.buffer);
+	const view = new DataView(memory.buffer);
+
+	Object.entries(env).forEach(function(kv) {
+		view.setUint32(environ_ptr, environ_buf_ptr, true);
+		environ_ptr += 4;
+
+		const enc = new TextEncoder();
+		const str = enc.encode(kv[0] + "=" + kv[1] + "\0");
+
+		heap.set(str, environ_buf_ptr);
+		environ_buf_ptr += str.length;
+	});
+
+	return ERRNO_SUCCESS;
 }
 
 export function environ_sizes_get(environc_out, environ_buf_size_out)
 {
-	return ERRNO_NOSYS;
+	const view = new DataView(memory.buffer);
+
+	view.setUint32(environc_out, Object.entries(env).length, true);
+	view.setUint32(environ_buf_size_out, Object.entries(env).reduce(function(acc, kv) {
+		const enc = new TextEncoder();
+		const str = enc.encode(kv[0] + "=" + kv[1] + "\0");
+
+		return acc + str.length;
+	}, 0), true);
+
+	return ERRNO_SUCCESS;
 }
 
 export function clock_res_get(id, resolution_out)
